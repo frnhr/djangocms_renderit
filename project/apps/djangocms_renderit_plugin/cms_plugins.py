@@ -8,6 +8,7 @@ class RenderItPlugin(CMSPluginBase):
     model = CMSPlugin
     render_template = "renderit_plugin/renderit_plugin.html"
     cache = False
+    allow_children = True
 
 
 plugin_pool.register_plugin(RenderItPlugin)
