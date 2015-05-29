@@ -1,5 +1,5 @@
 from django import template
-from django.template.base import Template, TemplateSyntaxError
+from django.template.base import Template
 
 
 register = template.Library()
@@ -20,7 +20,7 @@ class RenderNode(template.Node):
         output = self.nodelist.render(context)
         try:
             return Template(output).render(context)
-        except TemplateSyntaxError as e:
+        except Exception as e:
             return self.render_exception(e, output)
 
     def render_exception(self, e, output):
