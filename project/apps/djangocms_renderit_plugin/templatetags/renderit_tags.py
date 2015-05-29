@@ -1,5 +1,7 @@
 from django import template
 from django.template.base import Template, TemplateSyntaxError
+from django.template.defaultfilters import linebreaksbr
+from django.utils.html import escape
 
 register = template.Library()
 
@@ -29,8 +31,9 @@ class RenderNode(template.Node):
                 'overflow: auto; '
                 'color: red; '
                 'background: #eee;"'
-                '>{}</div>'.format(
-            str(e),
+                '>{message}, in:<br />{source}</div>'.format(
+            message=str(e),
+            source=escape(linebreaksbr(e.django_template_source[0].source)),
         ))
 
 
