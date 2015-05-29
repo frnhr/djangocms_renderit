@@ -11,4 +11,10 @@ class RenderItPlugin(CMSPluginBase):
     allow_children = True
 
 
+    def render(self, context, instance, placeholder):
+        context = super().render(context, instance, placeholder)
+        context['content'] = "qweQWEQWEQ"
+        return context
+
+
 plugin_pool.register_plugin(RenderItPlugin)

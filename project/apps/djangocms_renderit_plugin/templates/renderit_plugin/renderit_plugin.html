@@ -1,8 +1,8 @@
-{% load cms_tags %}
+{% load cms_tags renderit_tags %}
 HERE BE A ONE SINGLE A DUMMY PLUGIN!<br />
 AND HERE ARE THE CHILDREN:
 <div class="plugin parent" style="border: 1px solid red;">
     {% for plugin in instance.child_plugin_instances %}
-        {% render_plugin plugin %}
+        {% renderit %}{% render_plugin plugin %}{% endrenderit %}
     {% endfor %}
 </div>
