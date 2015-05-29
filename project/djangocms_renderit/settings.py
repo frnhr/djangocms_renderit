@@ -141,6 +141,7 @@ INSTALLED_APPS = (
     'djangocms_renderit',
 
     'apps.djangocms_renderit_plugin',
+    'apps.sample_custom_tag',
 )
 
 LANGUAGES = (

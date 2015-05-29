@@ -1,3 +1,4 @@
-{% load cms_tags renderit_tags %}
+{% load cms_tags renderit_tags sample_tags %}
+{% sample %}
 {% for plugin in instance.child_plugin_instances %}
     {% renderit %}{% render_plugin plugin %}{% endrenderit %}{% endfor %}
