@@ -22,18 +22,26 @@ class RenderNode(template.Node):
         try:
             return Template(output).render(context)
         except TemplateSyntaxError as e:
-            return self.render_exception(e)
+            return self.render_exception(e, output)
 
-    def render_exception(self, e):
+    def render_exception(self, e, output):
+        try:
+            source = escape(linebreaksbr(e.django_template_source[0].source))
+        except AttributeError:
+            source = ''
         return ('<div style="'
                 'max-height: 300px; '
                 'max-width: 100%; '
                 'overflow: auto; '
-                'color: red; '
+                'padding: 5px; '
                 'background: #eee;"'
-                '>{message}, in:<br />{source}</div>'.format(
+                '>'
+                '    <span style="color: red;">{message}</span>'
+                '    <div style="border: 1px dotted red; padding: 0;">{output}</div>'
+                '</div>'
+                ''.format(
             message=str(e),
-            source=escape(linebreaksbr(e.django_template_source[0].source)),
+            output=output,
         ))
 
 
