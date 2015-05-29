@@ -1,4 +1,5 @@
 from django import template
+from django.template.base import Template
 
 register = template.Library()
 
@@ -14,7 +15,7 @@ class RenderNode(template.Node):
         self.nodelist = nodelist
     def render(self, context):
         output = self.nodelist.render(context)
-        return output.upper()
+        return Template(output).render(context)
 
 
 register.tag('renderit', do_renderit)
