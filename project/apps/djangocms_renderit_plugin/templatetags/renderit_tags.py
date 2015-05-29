@@ -1,6 +1,6 @@
 from django import template
 from django.template.base import Template
-
+from apps.djangocms_renderit_plugin.cms_plugins import render_exception
 
 register = template.Library()
 
@@ -21,24 +21,7 @@ class RenderNode(template.Node):
         try:
             return Template(output).render(context)
         except Exception as e:
-            return self.render_exception(e, output)
-
-    def render_exception(self, e, output):
-        # template_source = escape(linebreaksbr(e.django_template_source[0].source))
-        return ('<div style="'
-                'max-height: 300px; '
-                'max-width: 100%; '
-                'overflow: auto; '
-                'padding: 5px; '
-                'background: #eee;"'
-                '>'
-                '    <span style="color: red;">{message}</span>'
-                '    <div style="border: 1px dotted red; padding: 0;">{output}</div>'
-                '</div>'
-                ''.format(
-            message=str(e),
-            output=output,
-        ))
+            return render_exception(e, output)
 
 
 register.tag('renderit', do_renderit)

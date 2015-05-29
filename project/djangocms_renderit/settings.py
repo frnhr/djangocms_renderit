@@ -186,6 +186,10 @@ CMS_PERMISSION = True
 
 CMS_PLACEHOLDER_CONF = {}
 
+CMS_RENDERIT_TAG_LIBRARIES = (
+    'sample_tags',
+)
+
 DATABASES = {
     'default':
         {'PORT': '', 'HOST': 'localhost', 'PASSWORD': '', 'ENGINE': 'django.db.backends.sqlite3', 'USER': '', 'NAME': 'project.db'}
