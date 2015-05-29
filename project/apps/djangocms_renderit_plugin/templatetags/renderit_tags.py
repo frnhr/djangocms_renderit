@@ -1,7 +1,6 @@
 from django import template
 from django.template.base import Template, TemplateSyntaxError
-from django.template.defaultfilters import linebreaksbr
-from django.utils.html import escape
+
 
 register = template.Library()
 
@@ -25,10 +24,7 @@ class RenderNode(template.Node):
             return self.render_exception(e, output)
 
     def render_exception(self, e, output):
-        try:
-            source = escape(linebreaksbr(e.django_template_source[0].source))
-        except AttributeError:
-            source = ''
+        # template_source = escape(linebreaksbr(e.django_template_source[0].source))
         return ('<div style="'
                 'max-height: 300px; '
                 'max-width: 100%; '
