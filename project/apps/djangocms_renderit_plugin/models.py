@@ -9,7 +9,8 @@ TEMPLATE = (
     '#OUTPUT#')
 
 
-ERROR_TEMPLATE = ('<div style="'
+ERROR_TEMPLATE = ('{output_wrap_start}'
+                  '<div style="'
                   'max-height: 300px; '
                   'max-width: 100%; '
                   'overflow: auto; '
@@ -17,17 +18,11 @@ ERROR_TEMPLATE = ('<div style="'
                   'background: #eee;"'
                   '>'
                   '    <span style="color: red;">{message}</span>'
-                  '    {output_html}'
-                  '</div>')
+                  '    {output_inner}'
+                  '</div>'
+                  '{output_wrap_end}')
 
 ERROR_OUTPUT_TEMPLATE = '<div style="border: 1px dotted red; padding: 0;">{}</div>'
-
-
-def render_exception(e, output=None):
-    return ERROR_TEMPLATE.format(
-        message=str(e),
-        output_html='' if not output else ERROR_OUTPUT_TEMPLATE.format(output),
-    )
 
 
 class RenderitCMSPlugin(CMSPlugin):
@@ -54,4 +49,27 @@ class RenderitCMSPlugin(CMSPlugin):
         try:
             return Template(template_str).render(context)
         except Exception as e:
-            return render_exception(e, output)
+            return self.render_exception(e, output)
+
+    def render_exception(self, e, output=None):
+        """ Render error message, preserving clickable wrappers
+            for easy access to parent "renderit" plugin.
+        """
+        expected_start = '<div class="cms_plugin cms_plugin-{}">'.format(self.id)
+        expected_end = '</div>'
+        if (output[:len(expected_start)] == expected_start
+                and output[-len(expected_end):] == expected_end):
+            output_inner = output[len(expected_start):-len(expected_end)]
+            output_wrap_start = expected_start
+            output_wrap_end = expected_end
+        else:
+            # we are most likely not in edit mode, so no clickable div wrapper
+            output_inner = output
+            output_wrap_start = ''
+            output_wrap_end = ''
+        return ERROR_TEMPLATE.format(
+            message=str(e),
+            output_inner='' if not output_inner else ERROR_OUTPUT_TEMPLATE.format(output),
+            output_wrap_start=output_wrap_start,
+            output_wrap_end=output_wrap_end,
+        )
