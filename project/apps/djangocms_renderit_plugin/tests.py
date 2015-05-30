@@ -6,6 +6,27 @@ from djangocms_text_ckeditor.cms_plugins import TextPlugin
 from .cms_plugins import RenderItPlugin
 
 
+def sample_context_processor(request):
+    return {
+        'dummy_var': 'whatzaaap!',
+    }
+
+
+DEFAULT_TEMPLATE_CONTEXT_PROCESSORS = (
+    "django.contrib.auth.context_processors.auth",
+    "django.core.context_processors.debug",
+    "django.core.context_processors.i18n",
+    "django.core.context_processors.media",
+    "django.core.context_processors.static",
+    "django.core.context_processors.tz",
+    "django.contrib.messages.context_processors.messages",
+)
+
+SAMPLE_TEMPLATE_CONTEXT_PROCESSORS = DEFAULT_TEMPLATE_CONTEXT_PROCESSORS + (
+    'apps.djangocms_renderit_plugin.tests.sample_context_processor',
+)
+
+
 class RenderitPluginTests(TestCase):
 
     def test_empty_plugin(self):
@@ -104,3 +125,26 @@ class RenderitPluginTests(TestCase):
             placeholder=placeholder,
         ))
         self.assertIn('HERE BE DA SIMPLE TAG!', html)
+
+    @override_settings(TEMPLATE_CONTEXT_PROCESSORS=SAMPLE_TEMPLATE_CONTEXT_PROCESSORS)
+    def test_text_plugin_with_custom_tag_on_model(self):
+        placeholder = Placeholder.objects.create()
+        renderit_instance = add_plugin(
+            placeholder,
+            RenderItPlugin,
+            'en',
+            tag_libraries='sample_tags',
+        )
+        text_instance = add_plugin(
+            placeholder,
+            TextPlugin,
+            'en',
+            body='dummy_var: {{ dummy_var }}',
+        )
+        renderit_instance.child_plugin_instances = [text_instance, ]
+        html = renderit_instance.render_plugin(PluginContext(
+            dict={'request': None},
+            instance=renderit_instance,
+            placeholder=placeholder,
+        ))
+        self.assertIn('whatzaaap!', html)
