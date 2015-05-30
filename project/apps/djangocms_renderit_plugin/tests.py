@@ -50,7 +50,7 @@ class RenderitPluginTests(TestCase):
             instance=renderit_instance,
             placeholder=placeholder,
         ))
-        self.assertEqual('just some text', html)
+        self.assertEqual('just some text', html.strip())
 
     def test_text_plugin_with_url(self):
         placeholder = Placeholder.objects.create()
@@ -71,7 +71,7 @@ class RenderitPluginTests(TestCase):
             instance=renderit_instance,
             placeholder=placeholder,
         ))
-        self.assertEqual('admin: /en/admin/', html)
+        self.assertEqual('admin: /en/admin/', html.strip())
 
     @override_settings(CMS_RENDERIT_TAG_LIBRARIES=('sample_tags', ))
     def test_text_plugin_with_custom_tag_in_settings(self):
