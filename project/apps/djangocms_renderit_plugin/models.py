@@ -5,7 +5,7 @@ from django.template import Template
 
 
 TEMPLATE = (
-    '{% load cms_tags renderit_tags #ADDITIONAL_LIBRARIES# %}'
+    '{% load cms_tags #ADDITIONAL_LIBRARIES# %}'
     '#OUTPUT#')
 
 
