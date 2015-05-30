@@ -141,6 +141,7 @@ INSTALLED_APPS = (
     'djangocms_renderit',
 
     'apps.djangocms_renderit_plugin',
+    'apps.sample_custom_tag',
 )
 
 LANGUAGES = (
@@ -184,6 +185,10 @@ CMS_TEMPLATES = (
 CMS_PERMISSION = True
 
 CMS_PLACEHOLDER_CONF = {}
+
+CMS_RENDERIT_TAG_LIBRARIES = (
+    'sample_tags',
+)
 
 DATABASES = {
     'default':

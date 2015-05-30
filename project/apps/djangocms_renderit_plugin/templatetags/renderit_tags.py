@@ -1,6 +1,11 @@
+from classytags.arguments import Argument
+from classytags.core import Options
+from cms.templatetags.cms_tags import RenderPlugin
 from django import template
-from django.template.base import Template
-
+from django.template.base import Template, Context
+from apps.djangocms_renderit_plugin.cms_plugins import render_exception
+from classytags.utils import flatten_context
+from django.template.loader import render_to_string, find_template, get_template_from_string
 
 register = template.Library()
 
@@ -21,24 +26,37 @@ class RenderNode(template.Node):
         try:
             return Template(output).render(context)
         except Exception as e:
-            return self.render_exception(e, output)
-
-    def render_exception(self, e, output):
-        # template_source = escape(linebreaksbr(e.django_template_source[0].source))
-        return ('<div style="'
-                'max-height: 300px; '
-                'max-width: 100%; '
-                'overflow: auto; '
-                'padding: 5px; '
-                'background: #eee;"'
-                '>'
-                '    <span style="color: red;">{message}</span>'
-                '    <div style="border: 1px dotted red; padding: 0;">{output}</div>'
-                '</div>'
-                ''.format(
-            message=str(e),
-            output=output,
-        ))
+            return render_exception(e, output)
 
 
 register.tag('renderit', do_renderit)
+
+
+class RenderItPlugin(RenderPlugin):
+    name = 'renderit_plugin'
+    options = Options(
+        Argument('plugin'),
+        Argument('additional_libs'),
+    )
+
+    TEMPLATE = '''{% load renderit_tags #ADDITONAL_TAGS# %}#CONTENT#'''
+
+    def render_tag(self, context, **kwargs):
+        """ Take literal template instead of looking over the filesystem for one. """
+        # TODO Not very confident about the cuts made here...
+        additional_libs = kwargs.pop('additional_libs', '')
+        data = self.get_context(context, **kwargs)
+        try:
+            t = Template(
+                self.TEMPLATE.replace(
+                    '#CONTENT#', data['content']
+                ).replace(
+                    '#ADDITONAL_TAGS#', additional_libs
+                ))
+            return t.render(Context({}))
+        except Exception as e:
+            return super().render_tag(context, **kwargs)
+
+
+
+register.tag(RenderItPlugin)
