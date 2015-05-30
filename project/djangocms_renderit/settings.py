@@ -33,9 +33,6 @@ ALLOWED_HOSTS = []
 # Application definition
 
 
-
-
-
 ROOT_URLCONF = 'djangocms_renderit.urls'
 
 WSGI_APPLICATION = 'djangocms_renderit.wsgi.application'
@@ -43,7 +40,6 @@ WSGI_APPLICATION = 'djangocms_renderit.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/1.7/ref/settings/#databases
-
 
 
 # Internationalization
@@ -138,17 +134,20 @@ INSTALLED_APPS = (
     'djangocms_teaser',
     'djangocms_video',
     'reversion',
-    'djangocms_renderit'
+    'djangocms_renderit',
+
+    'apps.djangocms_renderit_plugin',
+    'apps.sample_custom_tag',
 )
 
 LANGUAGES = (
-    ## Customize this
+    # Customize this
     ('en', gettext('en')),
     ('de', gettext('de')),
 )
 
 CMS_LANGUAGES = {
-    ## Customize this
+    # Customize this
     1: [
         {
             'name': gettext('en'),
@@ -173,7 +172,7 @@ CMS_LANGUAGES = {
 }
 
 CMS_TEMPLATES = (
-    ## Customize this
+    # Customize this
     ('fullwidth.html', 'Fullwidth'),
     ('sidebar_left.html', 'Sidebar Left'),
     ('sidebar_right.html', 'Sidebar Right')
@@ -183,9 +182,19 @@ CMS_PERMISSION = True
 
 CMS_PLACEHOLDER_CONF = {}
 
+CMS_RENDERIT_TAG_LIBRARIES = (
+    # 'sample_tags',
+)
+
 DATABASES = {
-    'default':
-        {'PORT': '', 'HOST': 'localhost', 'PASSWORD': '', 'ENGINE': 'django.db.backends.sqlite3', 'USER': '', 'NAME': 'project.db'}
+    'default': {
+        'PORT': '',
+        'HOST': 'localhost',
+        'PASSWORD': '',
+        'ENGINE': 'django.db.backends.sqlite3',
+        'USER': '',
+        'NAME': 'project.db',
+    },
 }
 
 MIGRATION_MODULES = {
