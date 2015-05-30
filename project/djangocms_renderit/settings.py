@@ -186,9 +186,7 @@ CMS_PERMISSION = True
 
 CMS_PLACEHOLDER_CONF = {}
 
-CMS_RENDERIT_TAG_LIBRARIES = (
-    'sample_tags',
-)
+CMS_RENDERIT_TAG_LIBRARIES = ()
 
 DATABASES = {
     'default':

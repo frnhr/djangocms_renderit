@@ -5,9 +5,11 @@ from django.conf import settings
 from .models import RenderitCMSPlugin
 
 
-TEMPLATE = '''{% load cms_tags renderit_tags #ADDITIONAL_LIBRARIES# %}
-{% for plugin in instance.child_plugin_instances %}
-    {% renderit %}{% renderit_plugin plugin "#ADDITIONAL_LIBRARIES#" %}{% endrenderit %}{% endfor %}'''
+TEMPLATE = (
+    '{% load cms_tags renderit_tags #ADDITIONAL_LIBRARIES# %}'
+    '{% for plugin in instance.child_plugin_instances %}'
+    '{% renderit %}{% renderit_plugin plugin "#ADDITIONAL_LIBRARIES#" %}{% endrenderit %}'
+    '{% endfor %}')
 
 
 ERROR_TEMPLATE = ('<div style="'
