@@ -36,6 +36,8 @@ class RenderItPlugin(CMSPluginBase):
             libraries = ' '.join(map(str, settings.CMS_RENDERIT_TAG_LIBRARIES))
         except AttributeError:
             libraries = ''
+        if instance.tag_libraries:
+            libraries = ' '.join((libraries, instance.tag_libraries))
         try:
             return Template(TEMPLATE.replace('#ADDITIONAL_LIBRARIES#', libraries))
         except Exception as e:
