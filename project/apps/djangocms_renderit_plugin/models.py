@@ -8,5 +8,6 @@ class RenderitCMSPlugin(CMSPlugin):
         try:
             output = super().render_plugin(context, placeholder, admin, processors)
         except Exception as e:
+            return "error: {}".format(e)
             raise e
         return output

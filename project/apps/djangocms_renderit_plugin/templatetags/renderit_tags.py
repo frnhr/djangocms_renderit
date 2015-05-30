@@ -39,20 +39,24 @@ class RenderItPlugin(RenderPlugin):
         Argument('additional_libs'),
     )
 
-    TEMPLATE = '''{% load #ADDITONAL_TAGS# %}#CONTENT#'''
+    TEMPLATE = '''{% load renderit_tags #ADDITONAL_TAGS# %}#CONTENT#'''
 
     def render_tag(self, context, **kwargs):
         """ Take literal template instead of looking over the filesystem for one. """
         # TODO Not very confident about the cuts made here...
         additional_libs = kwargs.pop('additional_libs', '')
         data = self.get_context(context, **kwargs)
-        t = Template(
-            self.TEMPLATE.replace(
-                '#CONTENT#', data['content']
-            ).replace(
-                '#ADDITONAL_TAGS#', kwargs.get('additional_libs', additional_libs)
-            ))
-        return t.render(Context({}))
+        try:
+            t = Template(
+                self.TEMPLATE.replace(
+                    '#CONTENT#', data['content']
+                ).replace(
+                    '#ADDITONAL_TAGS#', additional_libs
+                ))
+            return t.render(Context({}))
+        except Exception as e:
+            return super().render_tag(context, **kwargs)
+
 
 
 register.tag(RenderItPlugin)
