@@ -6,9 +6,8 @@ from .models import RenderitCMSPlugin
 
 
 TEMPLATE = '''{% load cms_tags renderit_tags #ADDITIONAL_LIBRARIES# %}
-{% sample %}
 {% for plugin in instance.child_plugin_instances %}
-    {% renderit %}{% render_plugin plugin %}{% endrenderit %}{% endfor %}'''
+    {% renderit %}{% renderit_plugin plugin "#ADDITIONAL_LIBRARIES#" %}{% endrenderit %}{% endfor %}'''
 
 
 ERROR_TEMPLATE = ('<div style="'
