@@ -6,6 +6,7 @@ from djangocms_text_ckeditor.cms_plugins import TextPlugin
 from .cms_plugins import RenderItPlugin
 
 
+# noinspection PyUnusedLocal
 def sample_context_processor(instance, placeholder, context):
     return {
         'dummy_var': 'whatzaaap!',
@@ -14,6 +15,7 @@ def sample_context_processor(instance, placeholder, context):
 CMS_PLUGIN_CONTEXT_PROCESSORS = (
     'apps.djangocms_renderit_plugin.tests.sample_context_processor',
 )
+
 
 class RenderitPluginTests(TestCase):
 

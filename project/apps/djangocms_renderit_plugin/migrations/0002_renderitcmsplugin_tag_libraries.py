@@ -14,7 +14,8 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='renderitcmsplugin',
             name='tag_libraries',
-            field=models.CharField(blank=True, default='', max_length=255, help_text='Custom tag libraries, space-separated'),
+            field=models.CharField(blank=True, default='', max_length=255,
+                                   help_text='Custom tag libraries, space-separated'),
             preserve_default=True,
         ),
     ]
