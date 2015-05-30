@@ -61,12 +61,35 @@ class RenderitPluginTests(TestCase):
         self.assertEqual('admin: /en/admin/', html)
 
     @override_settings(CMS_RENDERIT_TAG_LIBRARIES=('sample_tags', ))
-    def test_text_plugin_with_custom_tag(self):
+    def test_text_plugin_with_custom_tag_in_settings(self):
         placeholder = Placeholder.objects.create()
         renderit_instance = add_plugin(
             placeholder,
             RenderItPlugin,
             'en',
+        )
+        text_instance = add_plugin(
+            placeholder,
+            TextPlugin,
+            'en',
+            body='sample: {% sample %}',
+        )
+        renderit_instance.child_plugin_instances = [text_instance, ]
+        html = renderit_instance.render_plugin(PluginContext(
+            dict={'request': None},
+            instance=renderit_instance,
+            placeholder=placeholder,
+        ))
+        self.assertIn('HERE BE DA SIMPLE TAG!', html)
+
+    @override_settings(CMS_RENDERIT_TAG_LIBRARIES=())
+    def test_text_plugin_with_custom_tag_on_model(self):
+        placeholder = Placeholder.objects.create()
+        renderit_instance = add_plugin(
+            placeholder,
+            RenderItPlugin,
+            'en',
+            tag_libraries='sample_tags',
         )
         text_instance = add_plugin(
             placeholder,
