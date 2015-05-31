@@ -1,19 +1,21 @@
+from __future__ import print_function
+from django.conf import settings
 from django.test import TestCase, override_settings
 from cms.plugin_rendering import PluginContext
 from cms.api import add_plugin
 from cms.models import Placeholder
 from djangocms_text_ckeditor.cms_plugins import TextPlugin
-from .cms_plugins import RenderItPlugin
+from ..cms_plugins import RenderItPlugin
 
-
-# noinspection PyUnusedLocal
-def sample_context_processor(instance, placeholder, context):
-    return {
-        'dummy_var': 'whatzaaap!',
-    }
 
 CMS_PLUGIN_CONTEXT_PROCESSORS = (
-    'apps.djangocms_renderit_plugin.tests.sample_context_processor',
+    'djangocms_renderit_plugin.tests.test_app.context_processors.sample_context_processor',
+)
+
+INSTALLED_APPS = settings.INSTALLED_APPS
+
+TEST_INSTALLED_APPS = INSTALLED_APPS + (
+    'djangocms_renderit_plugin.tests.test_app',
 )
 
 
@@ -75,7 +77,10 @@ class RenderitPluginTests(TestCase):
         ))
         self.assertEqual('admin: /en/admin/', html.strip())
 
-    @override_settings(CMS_RENDERIT_TAG_LIBRARIES=('sample_tags', ))
+    @override_settings(
+        CMS_RENDERIT_TAG_LIBRARIES=('sample_tags', ),
+        INSTALLED_APPS=TEST_INSTALLED_APPS,
+    )
     def test_text_plugin_with_custom_tag_in_settings(self):
         placeholder = Placeholder.objects.create()
         renderit_instance = add_plugin(
@@ -97,7 +102,10 @@ class RenderitPluginTests(TestCase):
         ))
         self.assertIn('HERE BE DA SIMPLE TAG!', html)
 
-    @override_settings(CMS_RENDERIT_TAG_LIBRARIES=())
+    @override_settings(
+        CMS_RENDERIT_TAG_LIBRARIES=(),
+        INSTALLED_APPS=TEST_INSTALLED_APPS,
+    )
     def test_text_plugin_with_custom_tag_on_model(self):
         placeholder = Placeholder.objects.create()
         renderit_instance = add_plugin(
@@ -120,7 +128,10 @@ class RenderitPluginTests(TestCase):
         ))
         self.assertIn('HERE BE DA SIMPLE TAG!', html)
 
-    @override_settings(CMS_PLUGIN_CONTEXT_PROCESSORS=CMS_PLUGIN_CONTEXT_PROCESSORS)
+    @override_settings(
+        CMS_PLUGIN_CONTEXT_PROCESSORS=CMS_PLUGIN_CONTEXT_PROCESSORS,
+        INSTALLED_APPS=TEST_INSTALLED_APPS,
+    )
     def test_text_plugin_with_custom_tag_on_model(self):
         placeholder = Placeholder.objects.create()
         renderit_instance = add_plugin(
@@ -141,4 +152,5 @@ class RenderitPluginTests(TestCase):
             instance=renderit_instance,
             placeholder=placeholder,
         ))
+        print(html)
         self.assertIn('whatzaaap!', html)

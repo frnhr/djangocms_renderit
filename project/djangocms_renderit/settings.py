@@ -136,8 +136,7 @@ INSTALLED_APPS = (
     'reversion',
     'djangocms_renderit',
 
-    'apps.djangocms_renderit_plugin',
-    'apps.sample_custom_tag',
+    'djangocms_renderit_plugin',
 )
 
 LANGUAGES = (
