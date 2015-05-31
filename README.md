@@ -1,6 +1,6 @@
 # djangocms-renderit
 
-CMS plugin that renders any content as if it was a Django template. v0.2.2
+CMS plugin that renders any content as if it was a Django template. v0.2.3
 
 ## Wait... what?
 
@@ -67,6 +67,10 @@ and:
         ...
     )
 
+and lastly:
+
+    python manage.py migrate
+    
 
 ### Settings
 
