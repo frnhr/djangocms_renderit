@@ -67,6 +67,10 @@ and:
         ...
     )
 
+and lastly:
+
+    python manage.py migrate
+    
 
 ### Settings
 
