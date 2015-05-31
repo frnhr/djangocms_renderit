@@ -2,7 +2,7 @@ from distutils.core import setup
 from setuptools import find_packages
 
 
-VERSION = "0.2"
+VERSION = "0.2.1"
 
 packages = find_packages(exclude=('publish_utils',))
 packages = list(filter(lambda file: "publish_utils" not in file, packages))
