@@ -1,11 +1,17 @@
 from distutils.core import setup
 from setuptools import find_packages
 
+
+VERSION = "0.2"
+
+packages = find_packages(exclude=('publish_utils',))
+packages = list(filter(lambda file: "publish_utils" not in file, packages))
+
 setup(
     name = 'djangocms_renderit_plugin',
     include_package_data = True,
-    packages = find_packages(),
-    version = '0.1.3',
+    packages = packages,
+    version = VERSION,
     description = 'Use Django templating language in DjangoCMS plugins.',
     author = 'frnhr',
     author_email = 'frnhr@changeset.hr',
