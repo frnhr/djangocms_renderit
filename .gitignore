@@ -1,3 +1,8 @@
 .idea
 *.pyc
 project.db
+package/build
+package/dist
+project_python2
+package/djangocms_renderit_plugin
+package/djangocms_renderit_plugin.egg-info
