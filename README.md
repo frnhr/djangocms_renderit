@@ -1,6 +1,6 @@
 # djangocms-renderit
 
-CMS plugin that renders any content as if it was a Django template.
+CMS plugin that renders any content as if it was a Django template. v0.2
 
 ## Wait... what?
 
@@ -57,13 +57,13 @@ option to load custom template libraries, either globally or for specific plugin
 
 Oh nothing fancy:
 
-    pip install djangocms_renderit
+    pip install djangocms_renderit_plugin
     
 and:
 
     INSTALLED_APPS = (
         ...
-        'djangocms_renderit',
+        'djangocms_renderit_plugin',
         ...
     )
 
@@ -82,10 +82,13 @@ content.
 
 Tested with:
 
- - DjangoCMS 3.1 
- - Django 1.7
- - Python 3
- 
+ - DjangoCMS 3.1
+ - Django 1.7.8
+ - Python 3.4.3, Python 2.7.9
+
 ### TODO
 
- * make it compatible with Python 2
+ * maybe remove the `_plugin` from `djangocms_renderit_plugin`
+ * tests for edit mode
+ * tests for HTML entities (`&quote;`, `&nbsp;`, etc.)
+ 
