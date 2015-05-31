@@ -152,5 +152,4 @@ class RenderitPluginTests(TestCase):
             instance=renderit_instance,
             placeholder=placeholder,
         ))
-        print(html)
         self.assertIn('whatzaaap!', html)
