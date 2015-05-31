@@ -1,8 +1,8 @@
+from __future__ import unicode_literals
 from django.db import models
 from django.conf import settings
 from cms.models import CMSPlugin
 from django.template import Template
-
 
 TEMPLATE = (
     '{% load cms_tags #ADDITIONAL_LIBRARIES# %}'
@@ -39,7 +39,7 @@ class RenderitCMSPlugin(CMSPlugin):
         return libraries
 
     def render_plugin(self, context=None, placeholder=None, admin=False, processors=None):
-        output = super().render_plugin(context, placeholder, admin, processors)
+        output = super(RenderitCMSPlugin, self).render_plugin(context, placeholder, admin, processors)
 
         template_str = TEMPLATE.replace(
             '#OUTPUT#', output
