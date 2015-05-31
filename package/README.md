@@ -1,6 +1,6 @@
 # djangocms-renderit
 
-CMS plugin that renders any content as if it was a Django template. v0.2.3
+CMS plugin that renders any content as if it was a Django template. v0.2.4
 
 ## Wait... what?
 
